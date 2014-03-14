@@ -1,5 +1,3 @@
-//недоделано..
-
 //sumfib
 
 let sumFib = 
@@ -13,7 +11,7 @@ let sumFib =
                 sumFib' sum (y, x+y) con num
     sumFib' 0 (1, 1)
 
-printfn "%A" (sumFib (fun x -> x % 2 = 0) 4000000)
+printfn "%A\n" (sumFib (fun x -> x % 2 = 0) 4000000)
 
 //div
 
@@ -28,7 +26,7 @@ let prim =
                 prim' (res + 1L) num
     prim' 2L
  
-printfn "%A" (prim 600851475143L)
+printfn "%A\n" (prim 600851475143L)
 
 //Fact
 
@@ -46,44 +44,65 @@ let sumDigits =
 
 let sumFact num = sumDigits (fact num)
 
-printfn "%A" (sumFact 100I)
+printfn "%A\n" (sumFact 100I)
 
-//Количество путей от (0, 0) до (20, 20)
+//РљРѕР»РёС‡РµСЃС‚РІРѕ РїСѓС‚РµР№ РѕС‚ (0, 0) РґРѕ (20, 20)
 
 (*
-    Можно составить треугольник паскаля и взять число на позиции (20, 20),
-    но воспользовавшись знаниями о биноме ньютона, можно сказать сразу, что
-    там стоит сочетание из (20 - 1) по (20*2 - 2), т.е. сочетание из 19 по 38.
+    РњРѕР¶РЅРѕ СЃРѕСЃС‚Р°РІРёС‚СЊ С‚СЂРµСѓРіРѕР»СЊРЅРёРє РїР°СЃРєР°Р»СЏ Рё РІР·СЏС‚СЊ С‡РёСЃР»Рѕ РЅР° РїРѕР·РёС†РёРё (20, 20),
+    РЅРѕ РІРѕСЃРїРѕР»СЊР·РѕРІР°РІС€РёСЃСЊ Р·РЅР°РЅРёСЏРјРё Рѕ Р±РёРЅРѕРјРµ РЅСЊСЋС‚РѕРЅР°, РјРѕР¶РЅРѕ СЃРєР°Р·Р°С‚СЊ СЃСЂР°Р·Сѓ, С‡С‚Рѕ
+    С‚Р°Рј СЃС‚РѕРёС‚ СЃРѕС‡РµС‚Р°РЅРёРµ РёР· (20 - 1) РїРѕ (20*2 - 2), С‚.Рµ. СЃРѕС‡РµС‚Р°РЅРёРµ РёР· 19 РїРѕ 38.
 *)
 
 printf "%A" (fact(38I)/(fact(19I)*fact(19I)))
 
 //Arithm
-(*
-type Expr = 
-    |Const of int
-    |Var of string
-    |Add of Expr * Expr
-    |Sub of Expr * Expr
-    |Mul of Expr * Expr
-    |Div of Expr * Expr
 
+type Expr = 
+    | Const of int
+    | Var of string
+    | Add of Expr * Expr
+    | Sub of Expr * Expr
+    | Mul of Expr * Expr
+    | Div of Expr * Expr
 
 let rec recdesc expr =
-    let helper el er op =
+    let add' el er =
         let el' = recdesc el
         let er' = recdesc er
         match el', er' with
-        |Const 0, Var x | Var x, Const 0  -> x
-        |Const 0, Var x | Var x, Const 0 -> 0
+        | Const 0, Var x | Var x, Const 0  -> Var "x"
+        | Const x, Const y -> Const (x + y)
+        | _ -> Add (el', er')
+    let sub' el er =
+        let el' = recdesc el
+        let er' = recdesc er
+        match el', er' with
+        | Var x, Const 0  -> Var "x"
+        | Const x, Const y -> Const (x - y)
+        | Var x, Var y when x = y -> Const 0
+        | _ -> Sub(el', er')
+    let mul' el er =
+        let el' = recdesc el
+        let er' = recdesc er
+        match el', er' with
+        | Const 0, _ | _ , Const 0  -> Const 0
+        | Const 1, x | x , Const 1  -> x
+        | Const x, Const y -> Const (x * y)
+        | _ -> Mul (el', er')
+    let div' el er =
+        let el' = recdesc el
+        let er' = recdesc er
+        match el', er' with
+        | x , Const 1  -> x
+        | Const x, Const y -> Const (x / y)
+        | _ -> Div (el', er')  
     match expr with
-    |Add(x, y) -> helper x y 
-    |Sub(x, y) -> helper x y
-    |Mul(x, y) -> helper x y
-    |Div(x, y) -> helper x y
+    |Add(x, y) -> add' x y 
+    |Sub(x, y) -> sub' x y
+    |Mul(x, y) -> mul' x y
+    |Div(x, y) -> div' x y
     |x -> x
 
-let expr = (Mul (Add (Var "x") (Const 0)) (Const 1)) in
+let expr = (Mul (Add (Var "x", Const 0), Const 1)) in
     printf "%A" (recdesc expr)
-
-printf "lol" *)
