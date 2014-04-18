@@ -32,7 +32,7 @@ let times (list: char list) : (char * int) list =
     | [] -> []
 
 let makeOrderedList (list: (char*int) list) : CodeTree list =
-    let ctlist = List.sortBy (fun (x, y) -> abs y) list
+    let ctlist = List.sortBy (fun (x, y) -> y) list
     let rec makeOrderedList' list acc =
         match list with
         | (x, y)::tl -> makeOrderedList' tl ((Leaf (x, y))::acc)
@@ -46,14 +46,12 @@ let singleton (list: CodeTree list) : bool =
     | _ -> false
 
 let rec combine (list: CodeTree list) : CodeTree list =
-    if singleton list then 
+    if not (singleton list) then 
         match list with
         | a::b::tl -> 
-            match a, b with
-            | Fork (_), Fork (_) -> combine (Fork (a, b, (chars a) @ (chars b), weight a + weight b)::tl)
-            | Fork (_), Leaf (_) -> combine (Fork (a, b, (chars a) @ (chars b), weight a + weight b)::tl)
-            | Leaf (_), Fork (_) -> combine (Fork (a, b, (chars a) @ (chars b), weight a + weight b)::tl)
-            | Leaf (_), Leaf (_) -> combine (Fork (a, b, (chars a) @ (chars b), weight a + weight b)::tl)
+            let buf = Fork (a, b, (chars a) @ (chars b), weight a + weight b)::tl
+            combine (List.sortBy (function | Fork (_, _, _, x) -> x | Leaf (_, x) -> x) buf)
+        | _ -> failwith "Something wrong!"          
     else list
 
 let createCodeTree (chars: string) : CodeTree = 
@@ -65,4 +63,3 @@ let createCodeTree (chars: string) : CodeTree =
 
 let myTree = createCodeTree "aabbcdbcbecbdebcaddde" in
     printfn "%A" myTree
-    printfn "lol"
