@@ -11,12 +11,12 @@ type CodeTree =
 
 let weight (tree: CodeTree) : int =
     match tree with
-    | CodeTree (_, _, _, x) -> x
+    | Fork (_, _, _, x) -> x
     | Leaf (_, x) -> x
 
 let chars (tree: CodeTree) : char list = 
     match tree with
-    | CodeTree (_, _, x, _) -> x
+    | Fork (_, _, x, _) -> x
     | Leaf (x, _) -> x::[]
 
 let times (list: char list) : (char * int) list =
@@ -50,10 +50,10 @@ let rec combine (list: CodeTree list) : CodeTree list =
         match list with
         | a::b::tl -> 
             match a, b with
-            | CodeTree (_), CodeTree (_) -> combine (CodeTree(a, b, (chars a) @ (chars b), weight a + weight b)::tl)
-            | CodeTree (_), Leaf (_) -> combine (CodeTree(a, b, (chars a) @ (chars b), weight a + weight b)::tl)
-            | Leaf (_), CodeTree (_) -> combine (CodeTree(a, b, (chars a) @ (chars b), weight a + weight b)::tl)
-            | Leaf (_), Leaf (_) -> combine (CodeTree(a, b, (chars a) @ (chars b), weight a + weight b)::tl)
+            | Fork (_), Fork (_) -> combine (Fork (a, b, (chars a) @ (chars b), weight a + weight b)::tl)
+            | Fork (_), Leaf (_) -> combine (Fork (a, b, (chars a) @ (chars b), weight a + weight b)::tl)
+            | Leaf (_), Fork (_) -> combine (Fork (a, b, (chars a) @ (chars b), weight a + weight b)::tl)
+            | Leaf (_), Leaf (_) -> combine (Fork (a, b, (chars a) @ (chars b), weight a + weight b)::tl)
     else list
 
 let createCodeTree (chars: string) : CodeTree = 
@@ -65,3 +65,4 @@ let createCodeTree (chars: string) : CodeTree =
 
 let myTree = createCodeTree "aabbcdbcbecbdebcaddde" in
     printfn "%A" myTree
+    printfn "lol"
