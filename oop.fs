@@ -47,7 +47,7 @@ type Pokemon (name:string, master:Master, ability:string, damage:int) =
     override this.SetName newname = 
         printfn "Probably %A has become strong enough to call himself %A" name newname
         name <- newname
-    override this.ToString() = "Unknown Pokemon" + name
+    override this.ToString() = "Unknown Pokemon " + name
 
     member this.HP = hp
     member this.Master = master
