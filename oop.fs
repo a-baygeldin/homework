@@ -21,11 +21,11 @@ type Master (name:string) =
         printfn "Probably %A has quit the game and his pokemons goes to %A hands" name newname
         name <- newname
     
-    member this.Dice =
+    member this.throwDice =
         let rnd = new System.Random(int System.DateTime.Now.Ticks)
-        let throw = rnd.Next(1, 6)
-        printfn "%A throws %A" name throw
-        throw
+        let result = rnd.Next(1, 6)
+        printfn "%A throws %A" name result
+        result
 
     member this.FrySausages = 
         sausages <- sausages + 1
@@ -41,7 +41,7 @@ type Pokemon (name:string, master:Master, ability:string, damage:int) =
     let mutable name = name
     let mutable master = master
     let mutable level = 1
-    let mutable hp = 100
+    let mutable health = 100
 
     abstract member Special : unit
     override this.SetName newname = 
@@ -49,9 +49,9 @@ type Pokemon (name:string, master:Master, ability:string, damage:int) =
         name <- newname
     override this.ToString() = "Unknown Pokemon " + name
 
-    member this.HP = hp
+    member this.HP = health
     member this.Master = master
-    member this.Hurt damage = hp <- (hp - damage)
+    member this.Hurt damage = health <- (health - damage)
     member this.LevelUp = level <- level + 1
     member this.ChangeMaster (newmaster:Master) = master <- newmaster
     member this.Attack (pokemon:Pokemon) =
@@ -64,7 +64,7 @@ type Pokemon (name:string, master:Master, ability:string, damage:int) =
 type FirePokemon (name:string, master:Master, ability:string, damage:int) = 
     inherit Pokemon(name, master, ability, damage)
 
-    override this.ToString() = "Fire Pokemon" + name
+    override this.ToString() = "Fire Pokemon " + name
     override this.Special = 
         printfn "%A is blazing with fire. ROWR!" name
         master.FrySausages
@@ -72,7 +72,7 @@ type FirePokemon (name:string, master:Master, ability:string, damage:int) =
 type ElectricPokemon (name:string, master:Master, ability:string, damage:int) = 
     inherit Pokemon(name, master, ability, damage)
 
-    override this.ToString() = "Electric Pokemon" + name
+    override this.ToString() = "Electric Pokemon " + name
     override this.Special = 
         printfn "%A is charging his master's cellphone. Still 99%% and it will never be 100%%..." name
         master.PlayFlappyBird
@@ -90,8 +90,8 @@ let rec Battle (first:Pokemon) (second:Pokemon) =
     if first.HP <= 0 then printfn "%A win!" second.Name
     if second.HP <= 0 then printfn "%A win!" first.Name
     if first.Master <> second.Master then
-        let firstThrow = first.Master.Dice
-        let secondThrow = second.Master.Dice
+        let firstThrow = first.Master.throwDice
+        let secondThrow = second.Master.throwDice
         if firstThrow > secondThrow then
             first.Attack second
         else if firstThrow < secondThrow then
