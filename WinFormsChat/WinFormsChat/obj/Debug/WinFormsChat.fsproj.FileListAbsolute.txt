@@ -7,3 +7,4 @@ c:\users\sandrik\documents\visual studio 2013\Projects\WinFormsChat\WinFormsChat
 c:\users\sandrik\documents\visual studio 2013\Projects\WinFormsChat\WinFormsChat\bin\Debug\ru\FSharp.Core.resources.dll
 c:\users\sandrik\documents\visual studio 2013\Projects\WinFormsChat\WinFormsChat\obj\Debug\WinFormsChat.exe
 c:\users\sandrik\documents\visual studio 2013\Projects\WinFormsChat\WinFormsChat\obj\Debug\WinFormsChat.pdb
+C:\Users\SANDRIK\Documents\Visual Studio 2013\Projects\WinFormsChat\WinFormsChat\bin\Debug\favicon.ico

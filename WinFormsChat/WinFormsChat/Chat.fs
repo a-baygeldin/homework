@@ -18,6 +18,7 @@ myBot.loadAIMLFromFiles();
 let form = new Form(Text = "AIML Bot", Height = 400, Width = 300)
 let message = new TextBox()
 let conversation = new TextBox()
+let bt1 = new Button()
 
 let enter (message:#TextBox) (conversation:#TextBox) (e:KeyEventArgs) =
     if (e.KeyCode = Keys.Enter) then 
@@ -30,18 +31,26 @@ let enter (message:#TextBox) (conversation:#TextBox) (e:KeyEventArgs) =
 let rnd = new Random()
 let r, g, b = rnd.Next(256), rnd.Next(256), rnd.Next(256)
 
+form.Icon <- new System.Drawing.Icon("favicon.ico")
 message.Dock <- DockStyle.Bottom
 conversation.Dock <- DockStyle.Fill
 conversation.Multiline <- true
+conversation.ScrollBars <- ScrollBars.Vertical
 conversation.WordWrap <- true
 conversation.ReadOnly <- true
 conversation.BackColor <- Color.FromArgb(r, g, b)
+bt1.Dock <- DockStyle.Bottom
+bt1.Image <- new Bitmap("favicon.ico");
+bt1.ImageAlign <- System.Drawing.ContentAlignment.MiddleCenter;
 
 form.Controls.Add(conversation)
 form.Controls.Add(message)
+form.Controls.Add(bt1)
 form.Show()
 
+message.Focus() |> ignore
 message.KeyDown.Add(enter message conversation)
 message.KeyDown.Add(fun e -> if e.KeyCode = Keys.Escape then Application.Exit())
+bt1.Click.Add(fun _ -> conversation.AppendText("AIML: Awesome coffee! Thanks! :)\n"))
 
 Application.Run()
