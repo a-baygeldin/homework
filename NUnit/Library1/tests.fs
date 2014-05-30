@@ -9,7 +9,17 @@ open Intersect
 open NUnit.Framework
 
 module secondaryFunctions =
-    let (==) a b = a = b
+    let (=) a b =
+        let defect = 0.001
+        abs(a - b) < defect
+    let (==) a b =
+        match a, b with
+        | NoPoint, NoPoint-> true
+        | Point(x, y), Point(x', y') -> (x = x') && (y = y') 
+        | Line(x, y), Line(x', y') -> (x = x') && (y = y') 
+        | VerticalLine(x), VerticalLine(x') -> (x = x')
+        | LineSegment((x0, y0), (x0', y0')), LineSegment((x1, y1), (x1', y1'))-> (x0 = x1) && (y0 = y1) && (x0' = x1') && (y0' = y1') 
+        | _ -> failwith "Wrong type!"
 
 [<TestFixture>]
 module getIntersectTests =
@@ -36,3 +46,5 @@ module getIntersectTests =
     let ``Same Points`` = Assert.AreEqual ((getIntersect (Intersect (Point (2.63452, 10.52356), Point (2.63452, 10.52356))) == Point (2.63452, 10.52356)), true)
     [<Test>]
     let ``Parallel Lines`` = Assert.AreEqual ((getIntersect (Intersect (Line (43.23462, 2.23579), Line (43.23462, 9.34643))) == NoPoint), true)
+    [<Test>]
+    let ``Complex Parallel Lines`` = Assert.AreEqual((getIntersect (Intersect (LineSegment ((1.0, 5.489134), (5.0, 18.507402)), LineSegment ((5.0, 17.507402), (1.0, 4.489134))))) == NoPoint, true)
