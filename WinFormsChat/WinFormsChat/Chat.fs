@@ -2,7 +2,7 @@
 A. Baygeldin (c) 2014
 ChatBot with WinForms
 *)
-
+//в фспродж прописать что надо. разобраться с дллкой
 module ChatBot
 
 open System

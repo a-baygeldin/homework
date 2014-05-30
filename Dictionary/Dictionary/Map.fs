@@ -52,6 +52,7 @@ module MyMap
             if k > k' then getValueByKey k right elif k < k' then getValueByKey k left else v'
         | Empty -> failwith "Key not found!"
 
+    let private makeNode k v l r = Node(k, v, l, r, max (height l) (height r) + 1)
 
     let private balance t = //4 types of rotation...
         match t with
@@ -62,16 +63,16 @@ module MyMap
                     if height left' >= height right'  then
                         match left' with
                         | Node(k'', v'', left'', right'', _) ->
-                            let leftNode = Node(k, v, left, left'', max (height left) (height left'') + 1)
-                            let rightNode = Node(k', v', right'', right', max (height right'') (height right') + 1)
-                            Node (k'', v'', leftNode, rightNode, max (height leftNode) (height rightNode) + 1)
+                            let leftNode = makeNode k v left left''
+                            let rightNode = makeNode k' v' right'' right'
+                            makeNode k'' v'' leftNode rightNode
                         | Empty -> failwith "Can't balance tree. Possibly nodes contain wrong heights."
                     else
                         match right' with
                         | Node(k'', v'', left'', right'', _) ->
-                            let leftNode = Node(k, v, left, left', max (height left) (height left') + 1)
-                            let rightNode = Node(k'', v'', left'', right'', max (height left'') (height right'') + 1)
-                            Node (k', v', leftNode, rightNode, max (height leftNode) (height rightNode) + 1)
+                            let leftNode = makeNode k v left left'
+                            let rightNode = makeNode k'' v'' left'' right''
+                            makeNode k' v' leftNode rightNode
                         | Empty -> failwith "Can't balance tree. Possibly nodes contain wrong heights."
                 | Empty -> failwith "Can't balance tree. Possibly nodes contain wrong heights."
             elif height left - height right > 1 then
@@ -80,16 +81,16 @@ module MyMap
                     if height right' >= height left' then
                         match right' with
                         | Node(k'', v'', left'', right'', _) ->
-                            let leftNode = Node(k', v', left', left'', max (height left') (height left'') + 1)
-                            let rightNode = Node(k, v, right'', right, max (height right'') (height right) + 1)
-                            Node (k'', v'', leftNode, rightNode, max (height leftNode) (height rightNode) + 1)
+                            let leftNode = makeNode k' v' left' left''
+                            let rightNode = makeNode k v right'' right
+                            makeNode k'' v'' leftNode rightNode
                         | Empty -> failwith "Can't balance tree. Possibly nodes contain wrong heights."
                     else
                         match left' with
                         | Node(k'', v'', left'', right'', _) ->
-                            let leftNode = Node(k'', v'', left'', right'', max (height left'') (height right'') + 1)
-                            let rightNode = Node(k, v, right', right, max (height right') (height right) + 1)
-                            Node (k', v', leftNode, rightNode, max (height leftNode) (height rightNode) + 1)
+                            let leftNode = makeNode k'' v'' left'' right''
+                            let rightNode = makeNode k v right' right
+                            makeNode k' v' leftNode rightNode
                         | Empty -> failwith "Can't balance tree. Possibly nodes contain wrong heights."
                 | Empty -> failwith "Can't balance tree. Possibly nodes contain wrong heights."
             else t
@@ -142,7 +143,7 @@ module MyMap
 
         new (src:seq<'K * 'V>) =
             {
-                t = if Seq.isEmpty src then Empty else Seq.fold (fun acc (k, v) -> add k v acc) Empty src
+                t = Seq.fold (fun acc (k, v) -> add k v acc) Empty src
             }
 
         member this.Add k v = new Map<_, _> (add k v this.t)

@@ -24,8 +24,13 @@ let rec parseImg (s:string) =
         let linkEnd = s.IndexOf("\"", linkStart + 5)
         s.Substring(linkStart + 5, linkEnd - linkStart - 5) :: parseImg (s.Remove(0, linkEnd))
 
-let cps list = printfn "%A" (Seq.toList (Seq.distinct (Seq.fold (fun acc x -> (parseImg x) @ acc) [] (Seq.filter (fun x -> countImg x <= 5) list))))
+let imgListGen cont list =
+    Seq.filter (fun x -> countImg x <= 5) list
+    |> Seq.fold (fun acc x -> (parseImg x) @ acc) []
+    |> Seq.distinct
+    |> Seq.toList
+    |> cont
 
-map getUrl urls cps
+map getUrl urls (imgListGen (printfn "%A"))
 
 Console.ReadLine() |> ignore

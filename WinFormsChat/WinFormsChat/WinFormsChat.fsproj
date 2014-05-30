@@ -79,8 +79,8 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <PropertyGroup>
-    <PreBuildEvent>xcopy "$(ProjectDir)\aiml\*" "$(ProjectDir)\bin\aiml\*"
-xcopy "$(ProjectDir)\config\*" "$(ProjectDir)\bin\config\*"</PreBuildEvent>
+    <PreBuildEvent>xcopy "$(ProjectDir)\aiml\*" "$(ProjectDir)\bin\Debug\aiml\*"
+xcopy "$(ProjectDir)\config\*" "$(ProjectDir)\bin\Debug\config\*"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
