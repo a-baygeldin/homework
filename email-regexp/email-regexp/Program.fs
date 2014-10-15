@@ -11,7 +11,8 @@ open System.Text.RegularExpressions
 [<TestFixture>]   
 module tests =
     //regex101.com - awesome!
-    let checkEmail str = Regex.IsMatch(str, "^[a-zA-Z]+([\.]?[\w]+)+@([a-zA-Z]+([\-]?[a-zA-Z]+)+\.)+[a-z]{2,6}$")
+    let regexp = "^[a-zA-Z]+([\.]?[\w]+)+@([a-zA-Z]+([\-]?[a-zA-Z]+)+\.)+(aero|arpa|asia|biz|cat|com|ru|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|post|pro|tel|travel|xxx)$"
+    let checkEmail str = Regex.IsMatch(str, regexp)
     
     [<Test>]
     let test1() = Assert.IsTrue (checkEmail "l.o.l@l-o-l.ru")
@@ -29,7 +30,7 @@ module tests =
     let test5() = Assert.IsFalse (checkEmail "l.o.l@l--o-l.ru")
 
     [<Test>]
-    let test6() = Assert.IsFalse (checkEmail "l.o.l@l-o-l.urururu")
+    let test6() = Assert.IsFalse (checkEmail "l.o.l@l-o-l.ururu")
 
     [<Test>]
     let test7() = Assert.IsFalse (checkEmail "lol.@l-o-l.ru")
@@ -57,3 +58,9 @@ module tests =
 
     [<Test>]
     let test15() = Assert.IsFalse (checkEmail "abc@def@example.com")
+
+    [<Test>]
+    let test16() = Assert.IsTrue (checkEmail "abc@example.asia")
+
+    [<Test>]
+    let test17() = Assert.IsTrue (checkEmail "abc@example.museum")
