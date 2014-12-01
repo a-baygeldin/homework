@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Tests", "Library1\Tests.fsproj", "{74614B4A-6B6E-4608-8783-8D186706FA41}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Tests", "Tests\Tests.fsproj", "{74614B4A-6B6E-4608-8783-8D186706FA41}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Intersect", "ConsoleApplication1\Intersect.fsproj", "{CCBAB84F-8264-401A-9AC4-1BBA890F9E44}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Intersect", "Intersect\Intersect.fsproj", "{CCBAB84F-8264-401A-9AC4-1BBA890F9E44}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{527F452B-4A87-4938-9C7D-AA4844E28284}"
 	ProjectSection(SolutionItems) = preProject
