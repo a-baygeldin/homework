@@ -35,11 +35,11 @@ let rec getIntersect a =
 
     let parseLineSegment a =
         match a with
-        | LineSegment ((x, y), (x', y')) when x <> x' && y <> y' ->
+        | LineSegment ((x, y), (x', y')) when x <> x' ->
             let k = (y' - y) / (x' - x)
             let b = y - k * x
             Line (k, b)
-        | LineSegment ((x, y), (x', y')) when x = x' && y <> y'->
+        | LineSegment ((x, y), (x', y')) when x = x' && y <> y' ->
             VerticalLine (x)
         | LineSegment ((x, y), (x', y')) when x = x' && y = y'->
             Point (x, y)

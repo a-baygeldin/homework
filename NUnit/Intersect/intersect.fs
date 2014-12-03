@@ -1,6 +1,6 @@
 ﻿(*
-A. Baygeldin (c) 2014
-Intersect
+    A. Baygeldin (c) 2014
+    Intersect
 *)
 
 module Intersect
@@ -12,33 +12,39 @@ type Geom =
     | VerticalLine of float
     | LineSegment of (float * float) * (float * float)
     | Intersect of Geom * Geom
+    override x.ToString() = sprintf "%A" x 
 
 let rec getIntersect a =
     let (=) a b =
         let defect = 0.001
         abs(a - b) < defect
+
     let (>=) a b =
         let defect = 0.001
         a + defect > b
+
     let (<=) a b =
         let defect = 0.001
         a - defect < b
+
     let normalizeLineSegment a =
         match a with
         | LineSegment ((x, y), (x', y')) ->
             if ((x' > x) || ((x = x') && (y' > y))) then a else LineSegment ((x', y'), (x, y))
         | _ -> failwith "Wrong type!"
+
     let parseLineSegment a =
         match a with
-        | LineSegment ((x, y), (x', y')) when x <> x' && y <> y' ->
+        | LineSegment ((x, y), (x', y')) when x <> x' ->
             let k = (y' - y) / (x' - x)
             let b = y - k * x
             Line (k, b)
-        | LineSegment ((x, y), (x', y')) when x = x' && y <> y'->
+        | LineSegment ((x, y), (x', y')) when x = x' && y <> y' ->
             VerticalLine (x)
         | LineSegment ((x, y), (x', y')) when x = x' && y = y'->
             Point (x, y)
         | _ -> failwith "Wrong type!"
+
     let lineIntersect a b =
         match a, b with
         | Line (x, y), Line (x', y') ->
@@ -49,18 +55,22 @@ let rec getIntersect a =
                 let y'' = x * x'' + y
                 Point (x'', y'')
         | _ -> failwith "Wrong type!"
+
     let pointLineIntersect a b =
         match a, b with
         | Point (x, y), Line (x', y') -> if y = x' * x + y' then a else NoPoint
         | _ -> failwith "Wrong type!"
+
     let pointIntersect a b =
         match a, b with
         | Point (x, y), Point (x', y') -> if (x = x') && (y = y') then a else NoPoint
         | _ -> failwith "Wrong type!"
+
     let pointVertLineIntersect a b =
         match a, b with
         | Point (x, y), VerticalLine (x') -> if x = x' then a else NoPoint
         | _ -> failwith "Wrong type!"
+
     let pointLineSegmentIntersect a b =
         match a, b with
         | Point (_), LineSegment ((x', y'), (x'', y'')) ->
@@ -70,6 +80,7 @@ let rec getIntersect a =
                 | Line (_) -> pointLineIntersect a b'
                 | VerticalLine(_) -> pointVertLineIntersect a b'
                 | Point (_) -> pointIntersect a b'
+
             match a' with
             | Point (x, y) ->
                 if (x' <= x && x <= x'') then
@@ -79,10 +90,12 @@ let rec getIntersect a =
             | NoPoint -> NoPoint
             | _ -> failwith "Wrong type!"
         | _ -> failwith "Wrong type!"
+
     let lineVertLineIntersect a b =
         match a, b with
         | Line (x, y), VerticalLine (x') -> Point (x', x' * x + y)
         | _ -> failwith "Wrong type!"
+
     let lineLineSegmentIntersect a b =
         match a, b with
         | Line (_), LineSegment ((x', y'), (x'', y'')) ->
@@ -92,6 +105,7 @@ let rec getIntersect a =
                 | Line (_) -> lineIntersect a b'
                 | VerticalLine(_) -> lineVertLineIntersect a b'
                 | Point (_) -> pointLineIntersect b' a
+
             match a' with
             | Point (x, y) ->
                 let buf = (x' <= x)
@@ -104,11 +118,13 @@ let rec getIntersect a =
             | NoPoint -> NoPoint
             | _ -> failwith "Wrong type!"
         | _ -> failwith "Wrong type!"
+
     let vertLineIntersect a b =
         match a, b with
         | VerticalLine (x), VerticalLine (x') when x = x'-> VerticalLine (x)
         | VerticalLine (x), VerticalLine (x') when x <> x'-> NoPoint
         | _ -> failwith "Wrong type!"
+
     let vertLineLineSegmentIntersect a b =
         match a, b with
         | VerticalLine (_), LineSegment((x', y'), (x'', y'')) ->
@@ -118,6 +134,7 @@ let rec getIntersect a =
                 | Line (_) -> lineVertLineIntersect b' a
                 | VerticalLine(_) -> vertLineIntersect a b'
                 | Point (_) -> pointVertLineIntersect b' a
+
             match a' with
             | Point (x, y) ->
                 if (x' <= x && x <= x'') then
@@ -128,6 +145,7 @@ let rec getIntersect a =
             | NoPoint -> NoPoint
             | _ -> failwith "Wrong type!"
         | _ -> failwith "Wrong type!"
+
     let lineSegmentIntersect a b =
         match a, b with
         | LineSegment((x0, y0), (x0', y0')), LineSegment((x1, y1), (x1', y1')) ->
@@ -178,6 +196,7 @@ let rec getIntersect a =
             | NoPoint -> NoPoint
             | _ -> failwith "Wrong type!"
         | _ -> failwith "Wrong type!"
+
     match a with
     | Intersect (a, b) ->
         match a, b with

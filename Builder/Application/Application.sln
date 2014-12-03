@@ -7,6 +7,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "GUI", "GUI\GUI.fsproj", "{4
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Intersect", "Intersect\Intersect.fsproj", "{D701ECD6-6DC0-4D59-8F1C-6617C78D0652}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Tests", "Tests\Tests.fsproj", "{627658BF-969E-43D5-A77D-4789B392FF09}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{D701ECD6-6DC0-4D59-8F1C-6617C78D0652}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D701ECD6-6DC0-4D59-8F1C-6617C78D0652}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D701ECD6-6DC0-4D59-8F1C-6617C78D0652}.Release|Any CPU.Build.0 = Release|Any CPU
+		{627658BF-969E-43D5-A77D-4789B392FF09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{627658BF-969E-43D5-A77D-4789B392FF09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{627658BF-969E-43D5-A77D-4789B392FF09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{627658BF-969E-43D5-A77D-4789B392FF09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
