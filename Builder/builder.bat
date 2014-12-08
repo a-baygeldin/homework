@@ -2,8 +2,6 @@
 
 set PATH=%PATH%;"%USERPROFILE%\AppData\Local\GitHub\PortableGit_ed44d00daa128db527396557813e7b68709ed0e2\bin\";"%WINDIR%\Microsoft.NET\Framework64\v4.0.30319";"%PROGRAMFILES(x86)%\NUnit 2.6.3\bin";"C:\Program Files (x86)\Blat Mail\full"
 
-goto :mail
-
 rmdir /s /q homework
 
 git clone -b master https://github.com/a-baygeldin/homework > git.log
@@ -16,13 +14,15 @@ if errorlevel 1 goto :mail
 
 nunit-console homework\Builder\Application\Tests\bin\Release\Tests.dll /xml:tests.xml > tests.log
 
-type NUL > exist.log
+type nul > exist.log
 
 for /F %%file in libs.txt do (
-	if not exist Application\GUI\bin\Release\%%file (
+	if not exist homework\Builder\Application\GUI\bin\Release\%%file (
 		echo %%file not found >> exist.log
 	)
 )
+
+if 1 == 1 goto :mail
 
 :mail
 type git.log msbuild_errors.log tests.log exist.log > output.txt
