@@ -89,9 +89,10 @@ let mainWindow() =
         match intersection with
         | Intersect(_, _) -> window.Result.Text <- (getIntersect intersection).ToString()  
         | _ -> window.Result.Text <- intersection.ToString()
-    for textbox in window.Wrap.Children do
-        if textbox :? Xceed.Wpf.Toolkit.WatermarkTextBox then 
-            textbox :?> (Xceed.Wpf.Toolkit.WatermarkTextBox) |> enableRegexp
+    let textboxes = [| window.PointX; window.PointY; window.LineB; window.LineK; 
+        window.VerticalLineX; window.LineSegmentX1; window.LineSegmentX2;
+        window.LineSegmentY1; window.LineSegmentY2 |]
+    for elem in textboxes do elem |> enableRegexp
     window.AddPoint.Click.Add(fun _ -> drawPoint())
     window.AddLine.Click.Add(fun _ -> drawLine())
     window.AddVerticalLine.Click.Add(fun _ -> drawVerticalLine())
