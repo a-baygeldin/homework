@@ -3,7 +3,7 @@ module Parser where
 import ParserCombinators
 import qualified Tokenizer
 
--- X - variable, C- constant, A - add, S - subtraction, M - multiplicate, D - divide
+--X - variable, C- constant, A - add, S - subtraction, M - multiplicate, D - divide
 data T = X String | C Int | A T T | S T T | M T T | D T T deriving Show
 
 instance Eq Tokenizer.Token where
@@ -47,8 +47,7 @@ m = p ||| p ||> (\ x -> multi ||> (\ op -> m ||> (\y -> val $ x `op` y )))
 p = var ||| 
     int ||| 
     lp ||> lift (e ||> (\e -> rp ||> lift (val e)))
---соглашение о том, что выражение, если оно есть, то обрамлено в скобки
 
 --да, парсер не умеет в числа больше одной цифры
-parse = apply p . Tokenizer.tokenize
+parse = apply e . Tokenizer.tokenize
  
