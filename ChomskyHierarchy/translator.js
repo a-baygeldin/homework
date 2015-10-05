@@ -4,9 +4,10 @@ var fs  = require('fs');
 var mt_file = 'mt.txt';
 var grammar_file = 'grammar.txt';
 
-var alphabet = ['1', '0', '_', 'x'], letters = [], buffer;
+var alphabet = ['1', '0', '_', 'x'], letters = [], buffer = '';
 
 for (var i = 0; i < alphabet.length; i++) {
+  if (alphabet[i] == 'x') continue;
   for (var j = 0; j < alphabet.length; j++) {
     letters.push('[' + alphabet[i] + ',' + alphabet[j] + ']');
   }
@@ -35,12 +36,14 @@ fs.readFileSync('mt.txt').toString().split('\r\n').forEach(function (line) {
   if (rule.direction == 'l') {
     for (var i = 0; i < letters.length; i++) {
       for (var j = 0; j < alphabet.length; j++) {
+        if (alphabet[j] == 'x') continue;
         write_production(letters[i] + rule.init_state + '[' + alphabet[j] + ',' + rule.cur_char + ']', 
           rule.final_state + letters[i] + '[' + alphabet[j] + ',' + rule.next_char + ']');
       }
     }
   } else {
     for (var j = 0; j < alphabet.length; j++) {
+      if (alphabet[j] == 'x') continue;
       write_production(rule.init_state + '[' + alphabet[j] + ',' + rule.cur_char + ']',
         '[' + alphabet[j] + ',' + rule.next_char + ']' + rule.final_state);
     }
@@ -51,8 +54,6 @@ write_production('halt', 'f');
 
 letters.forEach(function(letter) {
   var init_char = letter.substring(2, 1);
-  
-  if (init_char == 'x') return;
   var prod = init_char == '_' ? 'f' : 'f' + init_char + 'f';
   
   write_production('f' + letter, prod);
