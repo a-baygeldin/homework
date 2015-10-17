@@ -1,11 +1,11 @@
 ## Type-0 grammar for prime numbers language
 
 # Converted from Turing Machine for prime numbers
-# [a,b] is a symbol on a strip which means that current symbol is 'b' and initial is 'a'
+# [a,b] is a symbol on a tape which means that current symbol is 'b' and initial is 'a'
 
-'s' -> '[_,_]s|s[_,_]|q0'
-'q0' -> 'q0[0,0]|q0[1,1]'
-'q0' -> 'u0'
+'s' -> '[_,_]s|s[_,_]|s0'
+'s0' -> 's0[0,0]|s0[1,1]'
+'s0' -> 'u0'
 'u0[1,0]' -> '[1,0]u0'
 'u0[0,0]' -> '[0,0]u0'
 'u0[_,0]' -> '[_,0]u0'
