@@ -4,7 +4,7 @@
   Conventions: 
   1) Turing Machine should have only one final state;
   2) Turing Machine should NOT have states called 's', 's0' and 'f';
-  3) Turing Machine should NOT have a rule that don't move it left or right;
+  3) Turing Machine should NOT have a rule that leave it idle;
 */
 
 'use strict';

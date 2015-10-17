@@ -3,8 +3,8 @@
     
   Conventions: 
   1) LBA should have only one final state;
-  2) LBA should NOT have states called 's', 's0' and 'f';
-  3) LBA should NOT have a rule that don't move it left or right;
+  2) LBA should NOT have states called 's' and 's0';
+  3) LBA should NOT have a rule that leave it idle;
   4) LBA input alphabet includes two special symbols, serving as left and right endmarkers.
   5) LBA transitions may not print other symbols over the endmarkers.
   6) LBA transitions may neither move to the left of the left endmarker nor to the right of the right endmarker.
