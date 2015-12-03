@@ -114,15 +114,13 @@ Letter.prototype.insertInto = function (obj) {
 
 var z = new Letter(out_alphabet), a = new Letter(in_alphabet), b = new Letter(in_alphabet);
 
-for (var i = 0; i < in_alphabet.length; i++) {
-  // all possible 1-char input:
-  buffer_1char.add_production({ from: ['s'], to: [[init_state, l_edge, a, a, r_edge]] });
+// all possible 1-char input:
+buffer_1char.add_production({ from: ['s'], to: [[init_state, l_edge, a, a, r_edge]] });
 
-  // all possible n-char input:
-  buffer_nchar.add_production({ from: ['s'], to: [[init_state, l_edge, a, a], 's0'] });
-  buffer_nchar.add_production({ from: ['s0'], to: [[a, a], 's0'] });
-  buffer_nchar.add_production({ from: ['s0'], to: [[a, a, r_edge]] }); 
-}
+// all possible n-char input:
+buffer_nchar.add_production({ from: ['s'], to: [[init_state, l_edge, a, a], 's0'] });
+buffer_nchar.add_production({ from: ['s0'], to: [[a, a], 's0'] });
+buffer_nchar.add_production({ from: ['s0'], to: [[a, a, r_edge]] }); 
 
 fs.readFileSync(lba_file).toString().split('\r\n').forEach(function (line) {
   // skip comments and empty lines
